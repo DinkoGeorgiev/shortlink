@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Short Link</title>
+</head>
+<body class="p-10">
+<h4 class="font-bold text-lg">Shorten your urls for free</h4>
+
+<div class="mt-4" x-data="shortLinkData()">
+    <p><label for="long_link">Paste your long url here</label></p>
+    <textarea class="border border-1" id="long_link" x-model="long_link" name="long_link" rows="4" cols="50"></textarea>
+    <p><label for="short_link">Get your short url here</label></p>
+    <textarea class="border border-1" id="short_link" x-model="short_link" name="short_link" rows="4"
+              cols="50"></textarea>
+    <p font-color="red" x-show.transition="error" x-text="error"></p>
+    <br/>
+    <button class="border border-1" x-on:click="genShortLink(long_link)">Get Short Link</button>
+    <button class="border border-1" x-on:click="long_link = '', short_link = ''">Clear</button>
+</div>
+<script>
+    function shortLinkData() {
+        return {
+            long_link: '',
+            short_link: '',
+            error: '',
+            ok: false,
+
+            genShortLink(val, service) {
+                axios.post('/api/link/', {long_link: this.long_link})
+                    .then((r) => {
+                        console.log(r.data);
+                        this.ok = true;
+                        this.short_link = r.data.short_link
+                        this.error = ''
+                        setTimeout(() => {
+                            this.ok = false;
+                        }, 5000);
+
+                    }).catch((e) => {
+                    console.log(e);
+                    <!-- TODO: More informative feedback on error -->
+                    this.error = e.message
+
+                })
+            },
+            mounted() {
+                console.log('mounted');
+            }
+        }
+    }
+
+</script>
+</body>
+</html>
