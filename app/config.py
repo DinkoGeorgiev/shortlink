@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix="SHORTLINK_",
         secrets_dir="/run/secrets",  # Support container secrets when available
-        env_file=".env",  # For local development
+        env_file="web.env",  # For local development
         env_file_encoding="utf-8",
     )
 
