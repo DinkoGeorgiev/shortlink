@@ -10,7 +10,7 @@ from app.routers.web import router as web_router
 setup_logging()
 
 
-app = FastAPI(title="Short Link", docs_url="/api/docs")
+app = FastAPI(title="Short Link", docs_url="/api/docs", redoc_url="/api/redoc")
 
 origins = []
 
@@ -27,8 +27,3 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # Routers
 app.include_router(link_router)
 app.include_router(web_router)
-
-
-if __name__ == "__main__":
-    # Use for development purposes only
-    uvicorn.run("main:app", host="0.0.0.0", reload=True, port=8080)

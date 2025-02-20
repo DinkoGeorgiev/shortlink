@@ -22,4 +22,4 @@ COPY static /code/static
 COPY ./app /code/app
 
 # start
-CMD ["fastapi", "run", "app/main.py", "--port", "80"]
+CMD ["fastapi", "run", "app/main.py", "--port", "8000"]
